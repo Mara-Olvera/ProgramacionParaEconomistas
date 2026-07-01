@@ -109,14 +109,15 @@ tasa_desempleo_pais[tasa_desempleo_pais$tasa > 9.97, ]
 c) ¿Qué países tienen desempleo menor a 7%?
 
 ```{r}
-#ACÁME QUEDÉ
 tasa_desempleo_pais[tasa_desempleo_pais$tasa < 7, ] 
 ```
 
 d) Crea un vector lógico llamado `alto_desempleo` que sea `TRUE` para países con desempleo mayor a 10%
 
 ```{r}
-alto_desempleo <- TRUE if desempleo<10
+alto_desempleo <- desempleo > 10
+alto_desempleo
+
 
 ```
 
@@ -149,25 +150,27 @@ macro <- data.frame(
 a) Muestra el resumen estadístico de la base de datos
 
 ```{r}
-
+summary (macro)
 ```
 
 b) Agrega una columna `inflacion_alta` que sea `TRUE` si la inflación supera 10%
 
 ```{r}
-
+macro$inflacion_alta <- macro$inflacion > 10
+macro
 ```
 
 c) Filtra solo los países con desempleo menor a 8% y guárdalos en un objeto llamado `desempleo_bajo`
 
 ```{r}
-
+desempleo_bajo <- macro$desempleo < 8
+desempleo_bajo
 ```
 
 d) ¿Cuántos países tienen simultáneamente inflación alta **y** desempleo menor a 8%? (pista: combina condiciones con `&`)
 
 ```{r}
-
+macro[macro$inflacion > 10 & macro$desempleo < 8,]
 ```
 
 ---
@@ -208,23 +211,26 @@ y <- matrix(salario, nrow = n)
 
 ```{r}
 # X'X
-
+A <- t(X)%*%X
+A
 
 # (X'X)^-1
-
+solve(A)
 
 ```
 
 **b)** Calcula $X'y$
 
 ```{r}
-
+t(X)%*%y
 ```
 
 **c)** Calcula $\hat{\beta} = (X'X)^{-1}X'y$
 
 ```{r}
-
+B <- solve(A)
+C <- B%*%t(X)
+C%*%y
 ```
 
 
@@ -260,5 +266,55 @@ s     <- sd(d3$gf)
 d3$z  <- (d3$gf - m) / s
 cat("Promedio:", round(m, 2), "\n")
 cat("Top equipo:", d3$eq[1], "con", d3$gf[1], "goles\n")
+
+```
+
+Código reescrito:
+```{r}
+#Poner semilla para realmente generar los mismos números aleatorios cada vez
+set.seed(2026)
+
+#Como abajo vemos los nombres de equipos y goles, podemos asumir que estamos hablando de fútbol.
+#Establecemos el número total de equipos
+equipos <- 32
+
+#Asumimos que se dividen en grupos como en el mundial, y los nombramos
+grupos <- c("Grupo A","Grupo B","Grupo C","Grupo D",
+       "Grupo E","Grupo F",
+       "Grupo G","Grupo H")
+
+#creamos un data frame para el torneo
+torneo <- data.frame(
+  equipos_nombre  = paste0("Selección_", 1:equipos),
+  goles_anotados  = round(runif(equipos, 0, 15)),
+  goles_recibidos = round(runif(equipos, 0, 15)),
+  posicion = round(runif(equipos, 1, 32)), #posicion en el ranking entre los 32 equipos
+  grupo = rep(grupos, each = 4) #asignación de grupos, cuatro equipos por grupo
+)
+
+#Calcular diferencia de goles para evaluar defensiva contra ofensiva
+torneo$diferencia_goles  <- torneo$goles_anotados - torneo$goles_recibidos
+
+#Ver eficiencia de la selección dependiendo de si la diferencia de goles es positiva. 
+torneo$eficiencia  <- ifelse(torneo$diferencia_goles > 0, 1, 0)
+
+#Ordenar equipos por mayor a menor por cantidad de goles anotados 
+rank_goles <- torneo[order(-torneo$goles_anotados), ]
+
+#Seleccionar los 8 mejores equipos
+top_8   <- rank_goles[1:8, ]
+
+#Calcular promedio de goles de los ocho mejores
+promedio_goles     <- mean(top_8$goles_anotados)
+
+#Calcular desviación estándar de lo último
+desv_goles     <- sd(top_8$goles_anotados)
+
+#Calcular el puntaje Z (estandarización)
+top_8$z_score  <- (top_8$goles_anotados - promedio_goles) / desv_goles
+
+#Imprimir resultados principales 
+cat("Promedio:", round(promedio_goles, 2), "\n")
+cat("Top equipo:", top_8$equipo[1], "con", top_8$goles_anotados[1], "goles\n")
 
 ```
