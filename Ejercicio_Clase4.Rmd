@@ -1,0 +1,26 @@
+---
+title: "Ejercicios_Clase4"
+author: "Mara Olvera Carrillo"
+date: "2026-07-02"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, comment = "##",
+                      fig.width = 10, fig.height = 5)
+```
+
+
+```{r}
+library(tidyverse)
+library(patchwork)
+```
+
+```{r}
+denue_raw <- read_csv("denue_inegi_22_.csv",
+                      locale = locale(encoding = "latin1"))
+```
+```{r}
+
+```
+
