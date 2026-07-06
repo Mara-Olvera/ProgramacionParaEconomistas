@@ -1,6 +1,10 @@
 ---
 title: "Clase 5: Ejercicios"
+<<<<<<< HEAD
 author: "Mara Olvera Carrillo"
+=======
+author: "Tu nombre aquí"
+>>>>>>> c357dce70cdf3c06b79fa9c48400c95786adda48
 date: "`r Sys.Date()`"
 output:
   html_document:
@@ -52,7 +56,11 @@ limpiar_tabla_tm <- function(tabla) {
       pais            = club,
       plantilla       = club_2,
       edad_promedio   = plantilla,
+<<<<<<< HEAD
       participaciones = oslash_edad,
+=======
+      participaciones = o_edad,
+>>>>>>> c357dce70cdf3c06b79fa9c48400c95786adda48
       extranjero      = participaciones,
       valor_mercado   = en_el_extranjero,
       valor_promedio  = valor_de_mercado
@@ -86,10 +94,14 @@ La columna `extranjero` es el **porcentaje** de jugadores que juegan fuera de su
 $$\text{jugadores\_extranjero} = \frac{\text{extranjero} \times \text{plantilla}}{100}$$
 
 ```{r}
+<<<<<<< HEAD
 mundial_2026 <- mundial_2026 %>% 
   mutate(jugadores_extranjero = extranjero*plantilla / 100)
 
 head(mundial_2026) 
+=======
+
+>>>>>>> c357dce70cdf3c06b79fa9c48400c95786adda48
 ```
 
 ---
@@ -105,6 +117,7 @@ pagina_poblacion <- read_html(url_wiki)
 
 ## 3b — Encontrar la tabla
 
+<<<<<<< HEAD
 **Ejercicio 2.** Extrae todas las tablas de la página con `html_elements("table.wikitable")` y `html_table()`. Guárdalas en `tablas_pob`. ¿Cuántas hay?   Hay 5 tablas en la página
 
 ```{r}
@@ -114,6 +127,12 @@ tablas_pob <- pagina_poblacion %>%
   html_table()
 
 tablas_pob
+=======
+**Ejercicio 2.** Extrae todas las tablas de la página con `html_elements("table.wikitable")` y `html_table()`. Guárdalas en `tablas_pob`. ¿Cuántas hay?
+
+```{r}
+
+>>>>>>> c357dce70cdf3c06b79fa9c48400c95786adda48
 ```
 
 ## 3c — Explorar la estructura
@@ -121,7 +140,11 @@ tablas_pob
 **Ejercicio 3.** Imprime los nombres de columnas de la primera tabla con `names()`.
 
 ```{r}
+<<<<<<< HEAD
 colnames(tablas_pob[[1]])
+=======
+
+>>>>>>> c357dce70cdf3c06b79fa9c48400c95786adda48
 ```
 
 ## 3d — El problema del espacio especial
@@ -143,6 +166,7 @@ tablas_pob[[1]] %>%
 
 Para quitarlos hay que usar `"\\s|\\u00A0"` en vez de solo `" "`.
 
+<<<<<<< HEAD
 ```{r}
 poblacion <- tablas_pob[[1]] %>%
   select(
@@ -158,11 +182,16 @@ poblacion
 ```
 
 
+=======
+>>>>>>> c357dce70cdf3c06b79fa9c48400c95786adda48
 ## 3e — El problema del nombre duplicado
 
 Los nombres de países vienen duplicados en Wikipedia: `"Francia Francia"`, `"Brasil Brasil"`. La estrategia más robusta: buscar los nombres que ya tenemos (los 48 países del Mundial) **dentro** de la columna sucia de Wikipedia.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> c357dce70cdf3c06b79fa9c48400c95786adda48
 **Ejercicio 4.** El siguiente código limpia la tabla de población. Léelo con atención y escribe un comentario explicando qué hace cada parte:
 
 ```{r}
@@ -196,12 +225,15 @@ nrow(poblacion)
 ```
 
 *Escribe aquí tus comentarios explicando cada parte.*
+<<<<<<< HEAD
 la primera línea de "poblacion = str_remove_all(poblacion, "\\s|\\u00A0") %>% as.numeric()," tiene dos funciones principales: con el str_remove_all quita todos los espacios y los espacios especiales en la poblacion. Después, vuele la variable a una numérica.
 
 La línea de "pais = map_chr(pais_wiki, function(x) {" recorre uno por uno los valores de pais_wiki, para después byscar coincidencias conlos paises dentro de paises_mundial con la linea de "match <- paises_mundial[str_detect(x, fixed(paises_mundial))]". Luego se hace usa el length match 1 para asegurar que solo exista una coincidencia exacta. También dentro de esta línea se pone que si no hay una coincidencia exacta, se pone un NA y se anula el valor.
 se usa el filter para conservar solo las filas done el país y la población fueron encontradas. También se agrupa por país.
 En la siguiente línea, se usa slice_max para elegir la población más grande. Se usa slice_max para asegurarnos de agarrar las filas con los valores más altos, ya que slice_head solo nos daría la primera, no necesariamente los valores más altos.
 
+=======
+>>>>>>> c357dce70cdf3c06b79fa9c48400c95786adda48
 
 ---
 
@@ -210,7 +242,11 @@ En la siguiente línea, se usa slice_max para elegir la población más grande. 
 **Ejercicio 5.** Usa `anti_join()` para ver qué países del Mundial no tienen pareja en `poblacion`. Completa el código:
 
 ```{r}
+<<<<<<< HEAD
 anti_join(mundial_2026, poblacion, by = "pais") %>% pull(pais)
+=======
+anti_join(mundial_2026, poblacion, by = "") %>% pull()
+>>>>>>> c357dce70cdf3c06b79fa9c48400c95786adda48
 ```
 
 Deberían faltar 4: **Inglaterra**, **Escocia**, **Chequia** y **Bosnia-Herzegovina**.
@@ -225,10 +261,13 @@ tablas_pob[[1]] %>%
   select(pais_wiki = `País (o territorio dependiente)`) %>%
   filter(str_detect(pais_wiki, "Checa|Bosnia")) %>%
   pull(pais_wiki)
+<<<<<<< HEAD
 
 #No tuve que cambiar nada del código, al correrlo me dio los nombres de la manera que aparecen en wikipedia
 
 
+=======
+>>>>>>> c357dce70cdf3c06b79fa9c48400c95786adda48
 ```
 
 Ahora completa los valores faltantes de Chequia y Bosnia-Herzegovina buscándolos en `tablas_pob[[1]]` con el mismo método que usaste arriba, y comenta qué hace cada línea del código:
@@ -241,7 +280,11 @@ pob_chequia <- tablas_pob[[1]] %>%
     poblacion = `Proyecciónexponencialde lapoblaciónal1/7/2025[7]`
   ) %>%
   mutate(poblacion = str_remove_all(poblacion, "\\s|\\u00A0") %>% as.numeric()) %>%
+<<<<<<< HEAD
   filter(str_detect(pais_wiki,"Checa")) %>%   # completa el filtro
+=======
+  filter(str_detect(pais_wiki, "")) %>%   # completa el filtro
+>>>>>>> c357dce70cdf3c06b79fa9c48400c95786adda48
   slice_max(poblacion, n = 1) %>%
   pull(poblacion)
 
@@ -252,7 +295,11 @@ pob_bosnia <- tablas_pob[[1]] %>%
     poblacion = `Proyecciónexponencialde lapoblaciónal1/7/2025[7]`
   ) %>%
   mutate(poblacion = str_remove_all(poblacion, "\\s|\\u00A0") %>% as.numeric()) %>%
+<<<<<<< HEAD
   filter(str_detect(pais_wiki, "Bosnia")) %>%   # completa el filtro
+=======
+  filter(str_detect(pais_wiki, "")) %>%   # completa el filtro
+>>>>>>> c357dce70cdf3c06b79fa9c48400c95786adda48
   slice_max(poblacion, n = 1) %>%
   pull(poblacion)
 
@@ -264,7 +311,10 @@ faltantes <- tibble(
 
 # unir con la tabla principal y verificar
 poblacion <- bind_rows(poblacion, faltantes)
+<<<<<<< HEAD
 
+=======
+>>>>>>> c357dce70cdf3c06b79fa9c48400c95786adda48
 anti_join(mundial_2026, poblacion, by = "pais") %>% pull(pais)
 ```
 
@@ -277,6 +327,7 @@ anti_join(mundial_2026, poblacion, by = "pais") %>% pull(pais)
 $$\text{jugadores\_per\_capita} = \frac{\text{jugadores\_extranjero}}{\text{poblacion} / 1{,}000{,}000}$$
 
 ```{r}
+<<<<<<< HEAD
 datos_indicador <- mundial_2026 %>%
   left_join(poblacion, by = "pais")
 
@@ -289,6 +340,9 @@ datos_indicador <- datos_indicador %>%
 datos_indicador %>%
   slice_max(jugadores_per_capita, n = 10) %>%
   select(pais, jugadores_per_capita)
+=======
+
+>>>>>>> c357dce70cdf3c06b79fa9c48400c95786adda48
 ```
 
 ---
@@ -301,6 +355,7 @@ datos_indicador %>%
 - ¿Tiene sentido económico que un país pequeño tenga un ratio más alto?
 
 *Tu respuesta aquí.*
+<<<<<<< HEAD
 Esperaría ver países con una población más pequeña, ya que en el sentido únicamente estadístico, dos países podrían tener la misma cantidad de jugadores en el extranjero pero el de menor población tendría un indicador más alto.
 ```{r}
 
@@ -329,6 +384,11 @@ ggplot(top15_jg_per_capita,
   ) +
   theme(plot.title = element_text(size = 12))
 
+=======
+
+```{r}
+
+>>>>>>> c357dce70cdf3c06b79fa9c48400c95786adda48
 ```
 
 
